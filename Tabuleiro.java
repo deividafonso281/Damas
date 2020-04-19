@@ -89,4 +89,42 @@ public class Tabuleiro {
 		return tab;
 	}
 	
+	
+	
+	public Tabuleiro realizaMovimento (int xInicial, int xFinal, int yInicial, int yFinal, Tabuleiro tab) { //ta dando problema qdo ta fora do tabuleiro
+		boolean p = tab.tabuleiro[0][0].podeMovimento(xInicial, xFinal, yInicial, yFinal);
+        if (!p)
+            return tab;
+		if (tab.tabuleiro[xInicial][yInicial].tipo == -1)
+			return tab;
+		else if (tab.tabuleiro[xFinal][yFinal].tipo != -1)
+			return tab;
+		else if (tab.tabuleiro[xInicial][yInicial].tipo == 0) {
+			Normal n = new Normal (tab.tabuleiro[xInicial][yInicial].cor, 0);
+			p = n.podeMovimento(xInicial, xFinal, yInicial, yFinal, tab.tabuleiro[xInicial][yInicial]);
+			if (p) {
+				n.tranformaDama(n, xFinal);
+				if (n.tipo == 1)
+					tab.tabuleiro[xFinal][yFinal].tipo = 1;
+				else 
+					tab.tabuleiro [xFinal][yFinal].tipo = 0;
+				tab.tabuleiro[xFinal][yFinal].cor = tab.tabuleiro[xInicial][yInicial].cor;
+				tab.tabuleiro[xInicial][yInicial].tipo = -1;
+				tab.tabuleiro[xInicial][yInicial].cor = '-';
+				return tab;
+			}
+		}
+		else {
+			Dama d = new Dama (tab.tabuleiro[xInicial][yInicial].cor, 1); //precisa ver se todos os espacos
+			p = d.podeMovimento(xInicial, xFinal, yInicial, yFinal); //q a dama percorre estao vazios
+			if (p) {
+				tab.tabuleiro[xFinal][yFinal].cor = tab.tabuleiro [xInicial][yInicial].cor;
+				tab.tabuleiro[xFinal][yFinal].tipo = 1;
+				tab.tabuleiro[xInicial][yInicial].cor = '-';
+				tab.tabuleiro[xInicial][yInicial].tipo = -1;
+				return tab;
+			}
+		}
+		return tab;
+	}	
 }

@@ -4,8 +4,6 @@ public class Normal extends Peca {
 		super (cor, tipo);
 	}
 	
-	//movimento
-	
 	public Peca tranformaDama (Peca comum, int x) {
 		if (comum.cor == 'P') {
 			if (x == 0) //chegou do outro lado do tabuleiro
@@ -18,18 +16,14 @@ public class Normal extends Peca {
 		return comum;
 	}
 	
-	public boolean podeMovimento (int xInicial, int xFinal, int yInicial, int yFinal, Tabuleiro t) { //nao sei como ver se pode ter o movimento com a captura e precisa realizar o movimento de fato no tabuleiro
+	public boolean podeMovimento (int xInicial, int xFinal, int yInicial, int yFinal, Peca p) { 
 		boolean s = super.podeMovimento (xInicial, xFinal, yInicial, yFinal);
-		if (t.tabuleiro[xFinal][yFinal].tipo != -1)
-			return false;
-		if (t.tabuleiro[xInicial][yInicial].tipo == -1)
-			return false;
 		if (s) {
-			if (t.tabuleiro[xInicial][yInicial].cor == 'B') { //se nao tem captura de pecas e e branca
+			if (p.cor == 'B') { 
 				if (xInicial + 1 == xFinal && (yInicial + 1 == yFinal || yInicial - 1 == yFinal)) 
 					return true;
 			}
-			else { //se nao tem captura e e preta
+			else if (p.cor == 'P'){ //se nao tem captura e e preta
 				if (xInicial - 1 == xFinal && (yInicial + 1 == yFinal || yInicial - 1 == yFinal))
 					return true;
 			}
