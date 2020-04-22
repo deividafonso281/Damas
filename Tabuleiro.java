@@ -41,7 +41,7 @@ public class Tabuleiro {
 		}
 	}
 	
-	public void Imprime () { //rever tanto esse metodo imprime como o construtor ta bem confuso
+	public void Imprime() { //rever tanto esse metodo imprime como o construtor ta bem confuso
 		for (int i = 7; i >= 0; i--) {
 			System.out.print ((i+1) + "\t");
 			for (int j = 0; j <= 7; j++) {
@@ -59,7 +59,7 @@ public class Tabuleiro {
 			if (preta == 0)
 				temJogo = false;
 		}
-		else { //em outra funcao tem que testar antes pra ver se tem uma peca no lugar indicado que vai ser removida
+		else { 
 			branca--;
 			if (branca == 0)
 				temJogo = false;
@@ -70,34 +70,48 @@ public class Tabuleiro {
 	
 	
 	
-	public void realizaMovimento (int xInicial, int xFinal, int yInicial, int yFinal) { //ta dando problema qdo ta fora do tabuleiro
+	public void moveNormal(int xInicial, int xFinal, int yInicial, int yFinal) {
 		boolean p = tabuleiro[0][0].podeMovimento(xInicial, xFinal, yInicial, yFinal);
-        if (p&&tabuleiro[xInicial][yInicial].tipo != -1&&tabuleiro[xFinal][yFinal].tipo == -1) {
-		if (tabuleiro[xInicial][yInicial].tipo == 0) {
+        if (p && tabuleiro[xInicial][yInicial].tipo == 0 && tabuleiro[xFinal][yFinal].tipo == -1) {
 			Normal n = new Normal (tabuleiro[xInicial][yInicial].cor, 0);
 			p = n.podeMovimento(xInicial, xFinal, yInicial, yFinal, tabuleiro[xInicial][yInicial]);
-			if (p) {
+			if (p) { //se for movimento simples
 				n.tranformaDama(n, xFinal);
 				if (n.tipo == 1)
 					tabuleiro[xFinal][yFinal].tipo = 1;
 				else 
-					tabuleiro [xFinal][yFinal].tipo = 0;
+					tabuleiro[xFinal][yFinal].tipo = 0;
 				tabuleiro[xFinal][yFinal].cor = tabuleiro[xInicial][yInicial].cor;
 				tabuleiro[xInicial][yInicial].tipo = -1;
 				tabuleiro[xInicial][yInicial].cor = '-';
 			}
-		}
-		else {
-			Dama d = new Dama (tabuleiro[xInicial][yInicial].cor, 1); //precisa ver se todos os espacos
-			p = d.podeMovimento(xInicial, xFinal, yInicial, yFinal); //q a dama percorre estao vazios
-			if (p) {
-				tabuleiro[xFinal][yFinal].cor = tabuleiro [xInicial][yInicial].cor;
-				tabuleiro[xFinal][yFinal].tipo = 1;
-				tabuleiro[xInicial][yInicial].cor = '-';
-				tabuleiro[xInicial][yInicial].tipo = -1;
+			int deltaX = xFinal - xInicial;
+			int deltaY = yFinal - yInicial;
+			if (deltaX == 2 || deltaX == -2) { //possivel captura
+				if (deltaY == 2 || deltaY == -2) {
+					if (tabuleiro[xInicial][yInicial].cor == 'B') {
+						if (tabuleiro[(xFinal-deltaX/2)][(yFinal-deltaY/2)].cor == 'P') { //se a peca no meio for da cor oposta
+							remove (xFinal-deltaX/2, yFinal-deltaY/2);
+							tabuleiro[xFinal][yFinal] = new Normal ('B', 0);
+							tabuleiro[xInicial][yInicial] = new Normal ('-', -1);
+							if (xFinal == 7) { //ransformou dama
+								tabuleiro[xFinal][yFinal].tipo = 1;
+							}
+						}
+					}
+					else {
+						if (tabuleiro[(xFinal-deltaX/2)][(yFinal-deltaY/2)].cor == 'B') { //se a peca no meio for da cor oposta
+							remove (xFinal-deltaX/2, yFinal-deltaY/2);
+							tabuleiro[xFinal][yFinal] = new Normal ('P', 0);
+							tabuleiro[xInicial][yInicial] = new Normal ('-', -1);
+							if (xFinal == 7) { //ransformou dama
+								tabuleiro[xFinal][yFinal].tipo = 1;
+							}
+						}
+					}
+				}
 			}
-		}
-	}
+        }
 	}
 
 	public void moveDama (int xInicial, int xFinal, int yInicial, int yFinal) {
@@ -173,7 +187,7 @@ public class Tabuleiro {
 		int yFinal = pos[3] - '0';
 		int xFinal = pos[4] - 'a';
 		if (tabuleiro[xInicial][xFinal].tipo==0) {
-			realizaMovimento (xInicial,  xFinal,  yInicial, yFinal);
+			moveNormal(xInicial,  xFinal,  yInicial, yFinal);
 		}
 		else if (tabuleiro[xInicial][xFinal].tipo==1) {
 			moveDama ( xInicial,  xFinal,  yInicial, yFinal);
