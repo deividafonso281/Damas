@@ -16,10 +16,23 @@ public class Peca {
                         return false;
                 if (xFinal < 0)
                         return false;
-                if (yInicial < 7)
+                if (yFinal < 0)
                         return false;
                 // peca saiu do tabuleiro
                 return true;
         }
+
+	public int getTipo() {
+		return tipo;
+	}
+	public char getCor () {
+		return cor;
+	}
+	public void setTipo(int tipo) {
+		this.tipo = tipo;
+	}
+	public void setCor(char cor) {
+		this.cor = cor;
+	}
 }
  

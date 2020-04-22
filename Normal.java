@@ -4,28 +4,29 @@ public class Normal extends Peca {
 		super (cor, tipo);
 	}
 	
-	public Peca tranformaDama (Peca comum, int x) {
-		if (comum.cor == 'P') {
+	public void tranformaDama (int x) {
+		if (cor == 'P') {
 			if (x == 0) //chegou do outro lado do tabuleiro
-				comum.tipo = 1; //transforma em dama
+				tipo = 1; //transforma em dama
 		}
-		else if (comum.cor == 'B') {
+		else if (cor == 'B') {
 			if (x == 7) //chegou do outro lado do tabuleiro
-				comum.tipo = 1; //transforma em dama
+				tipo = 1; //transforma em dama
 		}
-		return comum;
 	}
 	
-	public boolean podeMovimento (int xInicial, int xFinal, int yInicial, int yFinal, Peca p) { 
+	public boolean podeMovimento (int xInicial, int xFinal, int yInicial, int yFinal) { 
 		boolean s = super.podeMovimento (xInicial, xFinal, yInicial, yFinal);
 		if (s) {
-			if (p.cor == 'B') { 
-				if (xInicial + 1 == xFinal && (yInicial + 1 == yFinal || yInicial - 1 == yFinal)) 
+			if (cor == 'B') { 
+				if (yInicial + 1 == yFinal && (xInicial + 1 == xFinal || xInicial - 1 == xFinal)) 
 					return true;
+				return false;
 			}
-			else if (p.cor == 'P'){ //se nao tem captura e e preta
-				if (xInicial - 1 == xFinal && (yInicial + 1 == yFinal || yInicial - 1 == yFinal))
+			else if (cor == 'P'){ //se nao tem captura e e preta
+				if (yInicial - 1 == yFinal && (xInicial + 1 == xFinal || xInicial - 1 == xFinal))
 					return true;
+				return false;
 			}
 		}
 		return s;

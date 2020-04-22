@@ -7,7 +7,7 @@ public class Main {
 
 		//Le o arquivo "arq001.csv"
 		CSVReader csv = new CSVReader();
-		//csv.setDataSource("arq001.csv");
+		csv.setDataSource("arq001.csv");
 		String commands[] = csv.requestCommands();
 		
 
@@ -23,7 +23,7 @@ public class Main {
 			tabuleiro.mover(pos);
 			System.out.printf("Source: %c%c\n", pos[0], pos[1]);
 			System.out.printf("Target: %c%c\n", pos[3], pos[4]);
-			tabuleiro.printTabuleiro();
+			tabuleiro.Imprime();
 		}
 	}
 }
