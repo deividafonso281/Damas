@@ -9,11 +9,17 @@ public class Peca {
 	}
 	
 	public boolean podeMovimento (int xInicial, int xFinal, int yInicial, int yFinal) {
-		if (xFinal > 7 || yFinal > 7)
-			return false;
-		if (xInicial > 7 || yInicial > 7)
-			return false;
-		return true;
-	}
+                //peca saiu do tabuleiro
+                if (xFinal > 7 )
+                        return false;
+                if (yFinal > 7)
+                        return false;
+                if (xFinal < 0)
+                        return false;
+                if (yInicial < 7)
+                        return false;
+                // peca saiu do tabuleiro
+                return true;
+        }
 }
  
