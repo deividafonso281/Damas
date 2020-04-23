@@ -1,7 +1,7 @@
 public class Peca {
 	
-	protected char cor; //P preto, B branco e - sem peca
-	protected int tipo; //0 normal e 1 dama
+	protected char cor; //P preto normal, B branco normal, C dama branca, K dama preta e - sem peca
+	protected int tipo; //0 normal e 1 dama, -1 vazio
 
 	Peca (char cor, int tipo) {
 		this.cor = cor;

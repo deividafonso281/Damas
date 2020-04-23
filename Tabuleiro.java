@@ -48,7 +48,21 @@ public class Tabuleiro {
 		for (int j = 7; j >= 0; j--) {
 			System.out.print ((j+1) + "\t");
 			for (int i = 0; i <= 7; i++) {
-				System.out.print (tabuleiro[i][j].cor + "\t");
+				if (tabuleiro[i][j].cor == 'B') {
+					if(tabuleiro[i][j].tipo == 0)
+						System.out.print ('B' + "\t");
+					else
+						System.out.print ('C' + "\t");
+				}
+				else if (tabuleiro[i][j].cor == 'P'){
+					if (tabuleiro[i][j].tipo == 0)
+						System.out.print ('P' + "\t");
+					else 
+						System.out.print ('K' + "\t");
+				}
+				else {
+					System.out.print ('-' + "\t");
+				}
 			}
 			System.out.println ("");
 		}
@@ -88,12 +102,12 @@ public class Tabuleiro {
 		if (vez == tabuleiro[xInicial][yInicial].cor) { //ve se o jogador certo esta jogando
 			
 	        if (tabuleiro[xInicial][yInicial].tipo == 0 && tabuleiro[xFinal][yFinal].tipo == -1) {
-				Normal n = new Normal (tabuleiro[xInicial][yInicial].cor, 0);
 				boolean p = tabuleiro[xInicial][yInicial].podeMovimento(xInicial, xFinal, yInicial, yFinal);
 			
 				if (p) { //se for movimento simples
-					n.tranformaDama(xFinal);
-					if (n.tipo == 1)
+					if (yFinal == 7 && tabuleiro[xInicial][yInicial].cor == 'B')
+						tabuleiro[xFinal][yFinal] = new Dama(tabuleiro[xInicial][yInicial].cor, 1);
+					else if (yFinal == 0 && tabuleiro[xInicial][yInicial].cor == 'P')
 						tabuleiro[xFinal][yFinal] = new Dama(tabuleiro[xInicial][yInicial].cor, 1);
 					else 
 						tabuleiro[xFinal][yFinal].tipo = 0;
@@ -110,7 +124,7 @@ public class Tabuleiro {
 								remove (xInicial+deltaX/2, yInicial+deltaY/2);
 								tabuleiro[xFinal][yFinal] = new Normal ('B', 0);
 								tabuleiro[xInicial][yInicial] = new Normal ('-', -1);
-								if (xFinal == 7) { //ransformou dama
+								if (yFinal == 7) { //ransformou dama
 									tabuleiro[xFinal][yFinal].tipo = 1;
 								}
 							}
@@ -120,7 +134,7 @@ public class Tabuleiro {
 								remove (xInicial+deltaX/2, yInicial+deltaY/2);
 								tabuleiro[xFinal][yFinal] = new Normal ('P', 0);
 								tabuleiro[xInicial][yInicial] = new Normal ('-', -1);
-								if (xFinal == 0) { //ransformou dama
+								if (yFinal == 0) { //ransformou dama
 									tabuleiro[xFinal][yFinal].tipo = 1;
 								}
 							}
